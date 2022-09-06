@@ -28,7 +28,7 @@ namespace Tests.EditMode
         {
             _tableSheets = TableSheetsHelper.MakeTableSheets();
             _agentState = new AgentState(new Address());
-            var currency = new Currency("NCG", 2, minter: null);
+            var currency = Currency.Legacy("NCG", 2, null);
             var gold = new FungibleAssetValue(currency, 0, 0);
             _goldBalanceState = new GoldBalanceState(_agentState.address, gold);
             _avatarState = new AvatarState(

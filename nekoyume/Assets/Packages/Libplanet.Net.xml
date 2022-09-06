@@ -327,6 +327,14 @@
             <param name="localVersion">The currently running application's
             <see cref="T:Libplanet.Net.AppProtocolVersion"/>.</param>
         </member>
+        <member name="M:Libplanet.Net.IceServer.#ctor(System.Uri)">
+            <summary>
+            Creates an instance by parsing given <paramref name="url"/>.
+            </summary>
+            <param name="url">The <see cref="T:System.Uri"/> to parse.</param>
+            <exception cref="T:System.ArgumentException">Thrown when <see cref="P:System.Uri.Scheme"/> is
+            not <c>"turn"</c> for <paramref name="url"/>.</exception>
+        </member>
         <member name="P:Libplanet.Net.Messages.BlockHashesMsg.StartIndex">
             <summary>
             The block index of the first hash in <see cref="P:Libplanet.Net.Messages.BlockHashesMsg.Hashes"/>.
@@ -675,17 +683,6 @@
             A reply to <see cref="T:Libplanet.Net.Messages.PingMsg"/>.
             </summary>
             <seealso cref="T:Libplanet.Net.Messages.PingMsg"/>
-        </member>
-        <member name="M:Libplanet.Net.Messages.TcpMessageCodec.#ctor">
-            <summary>
-            Creates a <see cref="T:Libplanet.Net.Messages.TcpMessageCodec"/> instance.
-            </summary>
-        </member>
-        <member name="M:Libplanet.Net.Messages.TcpMessageCodec.Encode(Libplanet.Net.Messages.Message,Libplanet.Crypto.PrivateKey,Libplanet.Net.AppProtocolVersion,Libplanet.Net.Peer,System.DateTimeOffset)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Libplanet.Net.Messages.TcpMessageCodec.Decode(System.Byte[],System.Boolean)">
-            <inheritdoc/>
         </member>
         <member name="T:Libplanet.Net.Peer">
             <summary>
@@ -1965,24 +1962,22 @@
         </member>
         <member name="M:Libplanet.Net.Transports.ITransport.StartAsync(System.Threading.CancellationToken)">
             <summary>
-            Initiates and runs transport layer.
+            Starts running a transport layer.
             </summary>
-            <param name="cancellationToken">
-            A cancellation token used to propagate notification that this
-            operation should be canceled.</param>
-            <returns>An awaitable task without value.</returns>
-            <exception cref="T:System.ObjectDisposedException">
-            Thrown when <see cref="T:Libplanet.Net.Transports.ITransport"/> instance is already disposed.</exception>
+            <param name="cancellationToken">The cancellation token used to propagate a notification
+            that this operation should be canceled.</param>
+            <returns>An awaitable <see cref="T:System.Threading.Tasks.Task"/> without a value.</returns>
+            <exception cref="T:System.ObjectDisposedException">Thrown when the <see cref="T:Libplanet.Net.Transports.ITransport"/>
+            instance is already disposed.</exception>
         </member>
         <member name="M:Libplanet.Net.Transports.ITransport.StopAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <summary>
-            Stops running transport layer.
+            Stops running a transport layer.
             </summary>
             <param name="waitFor">The <see cref="T:System.TimeSpan"/> of delay
             before actual stopping.</param>
-            <param name="cancellationToken">
-            A cancellation token used to propagate notification that this
-            operation should be canceled.</param>
+            <param name="cancellationToken">The cancellation token used to propagate a notification
+            that this operation should be canceled.</param>
             <returns>An awaitable task without value.</returns>
             <exception cref="T:System.ObjectDisposedException">
             Thrown when <see cref="T:Libplanet.Net.Transports.ITransport"/> instance is already disposed.</exception>
