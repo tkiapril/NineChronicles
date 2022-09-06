@@ -1965,24 +1965,22 @@
         </member>
         <member name="M:Libplanet.Net.Transports.ITransport.StartAsync(System.Threading.CancellationToken)">
             <summary>
-            Initiates and runs transport layer.
+            Starts running a transport layer.
             </summary>
-            <param name="cancellationToken">
-            A cancellation token used to propagate notification that this
-            operation should be canceled.</param>
-            <returns>An awaitable task without value.</returns>
-            <exception cref="T:System.ObjectDisposedException">
-            Thrown when <see cref="T:Libplanet.Net.Transports.ITransport"/> instance is already disposed.</exception>
+            <param name="cancellationToken">The cancellation token used to propagate a notification
+            that this operation should be canceled.</param>
+            <returns>An awaitable <see cref="T:System.Threading.Tasks.Task"/> without a value.</returns>
+            <exception cref="T:System.ObjectDisposedException">Thrown when the <see cref="T:Libplanet.Net.Transports.ITransport"/>
+            instance is already disposed.</exception>
         </member>
         <member name="M:Libplanet.Net.Transports.ITransport.StopAsync(System.TimeSpan,System.Threading.CancellationToken)">
             <summary>
-            Stops running transport layer.
+            Stops running a transport layer.
             </summary>
             <param name="waitFor">The <see cref="T:System.TimeSpan"/> of delay
             before actual stopping.</param>
-            <param name="cancellationToken">
-            A cancellation token used to propagate notification that this
-            operation should be canceled.</param>
+            <param name="cancellationToken">The cancellation token used to propagate a notification
+            that this operation should be canceled.</param>
             <returns>An awaitable task without value.</returns>
             <exception cref="T:System.ObjectDisposedException">
             Thrown when <see cref="T:Libplanet.Net.Transports.ITransport"/> instance is already disposed.</exception>
