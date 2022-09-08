@@ -84,8 +84,8 @@ namespace Nekoyume.BlockChain
         protected BaseStore store;
         private IStagePolicy<NCAction> _stagePolicy;
         private IStateStore _stateStore;
-        private ImmutableList<Peer> _seedPeers;
-        private ImmutableList<Peer> _peerList;
+        private ImmutableList<BoundPeer> _seedPeers;
+        private ImmutableList<BoundPeer> _peerList;
 
         private static CancellationTokenSource _cancellationTokenSource;
 
@@ -156,7 +156,7 @@ namespace Nekoyume.BlockChain
         private void Init(
             PrivateKey privateKey,
             string path,
-            IEnumerable<Peer> peers,
+            IEnumerable<BoundPeer> peers,
             IEnumerable<IceServer> iceServers,
             string host,
             int? port,
@@ -216,7 +216,9 @@ namespace Nekoyume.BlockChain
 
             EncounteredHighestVersion = appProtocolVersion;
 
-            _swarm = new Swarm<NCAction>(
+            // FIXME: this should be changed to reflect libplanet API change after it is reworked.
+            // for context, refer to https://github.com/planetarium/libplanet/issues/2300.
+            var initSwarmTask = Task.Run(() => new Swarm<NCAction>(
                 blocks,
                 privateKey,
                 appProtocolVersion: appProtocolVersion,
@@ -224,7 +226,10 @@ namespace Nekoyume.BlockChain
                 listenPort: port,
                 iceServers: iceServers,
                 differentAppProtocolVersionEncountered: DifferentAppProtocolVersionEncountered,
-                trustedAppProtocolVersionSigners: trustedAppProtocolVersionSigners);
+                trustedAppProtocolVersionSigners: trustedAppProtocolVersionSigners));
+
+            initSwarmTask.Wait();
+            _swarm = initSwarmTask.Result;
 
             if (!consoleSink) InitializeTelemetryClient(_swarm.Address);
 
@@ -656,7 +661,7 @@ namespace Nekoyume.BlockChain
         }
 
         private void DifferentAppProtocolVersionEncountered(
-            Peer peer,
+            BoundPeer peer,
             AppProtocolVersion peerVersion,
             AppProtocolVersion localVersion
         )
